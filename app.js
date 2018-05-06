@@ -13,7 +13,9 @@ var port = 3000;
 app.set('port', port);
 
 var server = http.createServer(app);
-server.listen(port);
+server.listen(port,function(){
+console.log("App is running on: "+port)
+});
 
 app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');

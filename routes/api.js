@@ -3,6 +3,15 @@ var router = express.Router();
 var sensor = require('../model/sensor');
 var db = require('../model/db');
 
+/* GET current relay status*/
+router.get('/relaysta',(req,res)=>{
+//TODO 
+	res.json(sensor.getRelayStatus())
+})
+/* Relay*/
+router.get('/relay',(req,res)=>{
+ res.json(sensor.getRelay())
+})
 /* GET current sensor data. */
 router.get('/current', function(req, res) {
     res.json(sensor.getCurrent());

@@ -510,7 +510,48 @@ function autoReload() {
         $('#btn-reload-all').trigger('click');
     }
 }
+/*Relay function*/
+function loadRelay(){
+    $.getJSON('/api/relay', function(json) {
+        if(!json.result) {
+            displayError('继电器异常', '#error-container');
+            return;
+        }
+	var result = json.result;
+	if(result==1){
+	   $('#relaystatus').text("高电平");
+	   $('#relaybutton').text("关闭");
+	   $('#relaybutton').removeClass();
+	   $('#relaybutton').addClass('btn btn-danger');
+	}else{
+	   $('#relaystatus').text("低电平");
+	   $('#relaybutton').text("打开");
+	   $('#relaybutton').removeClass();
+	   $('#relaybutton').addClass('btn btn-success');
+	}
+    });
+}
+function loadRelayStatus(){
+   $.getJSON('/api/relaysta',function(json){
+        if(!json.result) {
+            displayError('继电器异常', '#error-container');
+            return;
+        }
+	var result = json.result;
+	if(result==1){
+	   $('#relaystatus').text("高电平");
+	   $('#relaybutton').text("关闭");
+	   $('#relaybutton').removeClass();
+	   $('#relaybutton').addClass('btn btn-danger');
+	}else{
+	   $('#relaystatus').text("低电平");
+	   $('#relaybutton').text("打开");
+	   $('#relaybutton').removeClass();
+	   $('#relaybutton').addClass('btn btn-success');
+	}
+   })
 
+}
 $(document).ready(function() {
     // Init
     Highcharts.setOptions({
@@ -518,7 +559,7 @@ $(document).ready(function() {
             useUTC: false
         }
     });
-
+    loadRelayStatus();
     $(document).on('geolocation', loadOutsideWeather);
 
     getLocation();
@@ -559,7 +600,10 @@ $(document).ready(function() {
 
     });
 
-
+   $('#relaybutton').on('click',function(){
+     $('#relaybutton,#relaystatus').text('...');
+     loadRelay();
+   })
     $('#btn-reload-inside').on('click', function() {
         $('#curr-temp-inside, #curr-hum-inside').text('...');
         loadCurrentData();
